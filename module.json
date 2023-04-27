@@ -1,0 +1,25 @@
+{
+  "id": "PF2e Organ Grinder",
+  "title": "PF2e Organ Grinder",
+  "description": "A module for PF2E that adds monster parts to most monsters in te PF2e Bestiary",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "ModernCannabist",
+      "discord": "ModernCannabist#8321",
+      "url": "https://github.com/Abourass"
+    }
+  ],
+  "minimumCoreVersion": "10",
+  "compatibility": {
+    "minimum": 10,
+    "maximum": 10,
+    "verified": "10.291"
+  },
+  "url": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT",
+  "manifest": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/module.json",
+  "download": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/dist/PF2e-Organ-Grinder.zip",
+  "readme": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/blob/master/README.md",
+  "bugs": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/issues",
+  "allowBugReporter": true
+}
