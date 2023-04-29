@@ -33,7 +33,7 @@ Hooks.on("createActor", async (actor, data) => {
                 console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { actor, data });
                 const compendiumData = await getItemFromCompendium('beast-parts', 'serpentfolk-scales');
                 if (!compendiumData)
-                    console.error('[😊 ORGAN GRINDER 😊::createActor] -> No compendium item found here\'s what we have for that compendium', { compendiumData: game.packs.get('beast-parts') });
+                    console.error('[😊 ORGAN GRINDER 😊::createActor] -> No compendium item found here\'s what we have for that compendium', { packs: game.packs });
                 console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { compendiumData });
             }
         }

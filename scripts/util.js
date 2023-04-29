@@ -1,7 +1,6 @@
 export async function getItemFromCompendium(packName, itemName) {
-    // @ts-ignore
-    const pack = await game.packs.getDocument(packName);
-    console.log('😊 ORGAN GRINDER 😊', { pack, itemName });
+    const pack = game.packs.get(packName);
+    console.log('😊 ORGAN GRINDER 😊', { pack, packName, itemName });
     if (!pack)
         return null;
     const itemIndex = await pack.getIndex();
