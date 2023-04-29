@@ -11,13 +11,28 @@ Hooks.once('init', () => {
   })
 });
 
-Hooks.on("preCreateActor", (actor, data, options, id) => {
-  const makeLootable = { flags: { pf2e: { lootable: { value: true } } } };
+async function getItemFromCompendium(packName, itemName) {
+  const pack = game.packs.get(packName);
+  console.log('😊 ORGAN GRINDER 😊', { pack, itemName });
+  const itemIndex = await pack.getIndex();
+  console.log('😊 ORGAN GRINDER 😊', { itemIndex });
+  const itemEntry = itemIndex.find(e => e.name === itemName);
+  console.log('😊 ORGAN GRINDER 😊', { itemEntry });
+  if (itemEntry) {
+    const item = await pack.getDocument(itemEntry._id);
+    console.log('😊 ORGAN GRINDER 😊', { item });
+    return item;
+  }
+  return null;
+}
 
+Hooks.on("preCreateActor", (actor, data, options, id) => {
   if (actor.type === "npc") {
     if (actor.system.traits.value && Array.isArray(actor.system.traits.value) && actor.system.traits.value.length > 0) {
       console.log('😊 ORGAN GRINDER 😊', { actor, data });
       const traits = actor.system.traits.value;
+
+      console.log('😊 ORGAN GRINDER 😊', getItemFromCompendium('beastParts', 'Serpentfolk Scales'));
 
       if (traits.includes('serpentfolk')) {
         actor._source.items.push({

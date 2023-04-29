@@ -2,7 +2,7 @@
   "id": "pf2e-organ-grinder",
   "title": "PF2e Organ Grinder",
   "description": "A module for PF2E that adds monster parts to most monsters in te PF2e Bestiary",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "authors": [
     {
       "name": "ModernCannabist",
@@ -33,6 +33,14 @@
         }
       }]
   },
+  "packs": [{
+    "name": "beast-parts",
+    "label": "Beast Parts",
+    "path": "./packs/beastParts.db",
+    "type": "Item",
+    "entity": "Item",
+    "system": "pf2e"
+  }],
   "esmodules": [
     "scripts/index.js"
   ]
