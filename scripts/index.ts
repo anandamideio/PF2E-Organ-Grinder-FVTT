@@ -1,5 +1,5 @@
 import { serpentfolkItems } from './data/serpentfolk.js';
-import { getItemFromCompendium } from './util.js';
+import { getItemFromCompendium, getRandomItemFromCompendiumWithPrefix } from './util.js';
 
 Hooks.once('init', () => {
   game.settings.register("pf2e-organ-grinder", true, {
@@ -35,10 +35,14 @@ Hooks.on("createActor", async(actor, data) => {
   try {
     if (actor.type === "npc") {
       if (actor.system.traits.value && Array.isArray(actor.system.traits.value) && actor.system.traits.value.length > 0) {
+        const traits = actor.system.traits.value;
+        const creatureSize = actor.data.data.traits.size.value;
+        const creatureLevel = actor.system.details.level.value;
         console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { actor, data });
   
-        const item = await getItemFromCompendium('beast-parts', 'Serpentfolk Fangs');
+        const item = await getRandomItemFromCompendiumWithPrefix('beast-parts', 'Serpentfolk', creatureLevel);
         if (!item) console.error('[😊 ORGAN GRINDER 😊::createActor] -> No item found here\'s what we have for that compendium', { items: game.packs.get(`pf2e-organ-grinder.beast-parts`) });
+        console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { item });
         actor.createEmbeddedDocuments('Item', [item])
       }
     }

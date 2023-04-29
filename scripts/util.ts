@@ -3,18 +3,39 @@ import Item, { Sizes } from '../types/item.js';
 export async function getItemFromCompendium(packName: 'beast-parts'|string, itemName: string) {
   // @ts-ignore
   const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
-  console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
   if (!pack) return null;
 
   const itemIndex = await pack.getIndex();
-  console.log('😊 ORGAN GRINDER 😊', { itemIndex });
   const itemEntry = itemIndex.find((e: { name: string }) => e.name === itemName);
-  console.log('😊 ORGAN GRINDER 😊', { itemEntry });
+
   if (itemEntry) {
     const item = await pack.getDocument(itemEntry._id);
     console.log('😊 ORGAN GRINDER 😊', { item });
     return item;
   }
+  return null;
+}
+
+export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-parts'|string, prefix: string, maxItemLevel = 10) {
+  // @ts-ignore
+  const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
+  if (!pack) return null;
+
+  const itemIndex = await pack.getIndex();
+  const itemEntries = itemIndex.filter((e: { name: string }) => e.name.startsWith(prefix));
+
+  const chooseItem = async(maxLevel: number): Promise<Item & { system: { details: { level: { value: number } } } }> => {
+    try {
+      const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id) as Item & { system: { details: { level: { value: number } } } };
+      if (item.system.details.level.value > maxLevel) return chooseItem(maxLevel);
+      return item;
+    } catch (error) {
+      console.error('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix] ->', { error })
+      throw error;
+    }
+  }
+
+  if (itemEntries) return chooseItem(maxItemLevel);
   return null;
 }
 

@@ -1,18 +1,38 @@
 export async function getItemFromCompendium(packName, itemName) {
     // @ts-ignore
     const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
-    console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
     if (!pack)
         return null;
     const itemIndex = await pack.getIndex();
-    console.log('😊 ORGAN GRINDER 😊', { itemIndex });
     const itemEntry = itemIndex.find((e) => e.name === itemName);
-    console.log('😊 ORGAN GRINDER 😊', { itemEntry });
     if (itemEntry) {
         const item = await pack.getDocument(itemEntry._id);
         console.log('😊 ORGAN GRINDER 😊', { item });
         return item;
     }
+    return null;
+}
+export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, maxItemLevel = 10) {
+    // @ts-ignore
+    const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
+    if (!pack)
+        return null;
+    const itemIndex = await pack.getIndex();
+    const itemEntries = itemIndex.filter((e) => e.name.startsWith(prefix));
+    const chooseItem = async (maxLevel) => {
+        try {
+            const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id);
+            if (item.system.details.level.value > maxLevel)
+                return chooseItem(maxLevel);
+            return item;
+        }
+        catch (error) {
+            console.error('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix] ->', { error });
+            throw error;
+        }
+    };
+    if (itemEntries)
+        return chooseItem(maxItemLevel);
     return null;
 }
 export function generateTreasure({ img, name, desc, value, quantity, size, rarity }) {

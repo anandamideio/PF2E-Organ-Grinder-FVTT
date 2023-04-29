@@ -1,4 +1,4 @@
-type iTypes = "treasure"
+type iTypes = "treasure"|'weapon'|'consumables'
 export type Sizes = "tiny"|"small"|"med"|"large"|"huge"|"grg"
 
 export default interface Item<itemType extends iTypes = iTypes> {
