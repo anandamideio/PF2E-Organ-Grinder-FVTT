@@ -1,5 +1,5 @@
 type iTypes = "treasure"
-export type Sizes = "tiny"|"sml"|"med"|"lrg"|"huge"|"grg"
+export type Sizes = "tiny"|"small"|"med"|"large"|"huge"|"grg"
 
 export default interface Item<itemType extends iTypes = iTypes> {
   "img": string,
@@ -40,7 +40,7 @@ export default interface Item<itemType extends iTypes = iTypes> {
     },
     "quantity": number,
     "rules": [],
-    "size": "med"|"lrg"|"sml",
+    "size": Sizes,
     "source": {
       "value": "PF2E Organ Grinder"
     },

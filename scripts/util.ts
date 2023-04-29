@@ -1,6 +1,7 @@
 import Item, { Sizes } from '../types/item.js';
 
 export async function getItemFromCompendium(packName: 'beast-parts'|string, itemName: string) {
+  // @ts-ignore
   const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
   console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
   if (!pack) return null;
@@ -23,10 +24,9 @@ export async function getItemFromCompendium(packName: 'beast-parts'|string, item
 
 type TreasureStats = Item<'treasure'>['system'];
 type TreasureValue = TreasureStats['price']['value'];
-type TreasureSize = TreasureStats['size'];
 type TreasureRarity = TreasureStats['traits']['rarity'];
 
-export function generateTreasure({ img, name, desc, value, quantity, size, rarity }: { img: string, name: string, desc: string, value: TreasureValue, quantity: number, size: TreasureSize, rarity: TreasureRarity }): Item<'treasure'> {
+export function generateTreasure({ img, name, desc, value, quantity, size, rarity }: { img: string, name: string, desc: string, value: TreasureValue, quantity: number, size: Sizes, rarity: TreasureRarity }): Item<'treasure'> {
   return {
     "img": img,
     "name": name,
@@ -85,9 +85,9 @@ export function generateTreasure({ img, name, desc, value, quantity, size, rarit
 export const randomizeAmount = (creatureSize: Sizes, itemSize: Sizes, max?: number) => {
   const sizes = {
     'tiny': 0.25,
-    'sml': 0.5,
+    'small': 0.5,
     'med': 1,
-    'lrg': 2,
+    'large': 2,
     'huge': 4,
     'grg': 8,
   }

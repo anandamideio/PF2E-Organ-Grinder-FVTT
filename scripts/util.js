@@ -1,4 +1,5 @@
 export async function getItemFromCompendium(packName, itemName) {
+    // @ts-ignore
     const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
     console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
     if (!pack)
@@ -72,9 +73,9 @@ export function generateTreasure({ img, name, desc, value, quantity, size, rarit
 export const randomizeAmount = (creatureSize, itemSize, max) => {
     const sizes = {
         'tiny': 0.25,
-        'sml': 0.5,
+        'small': 0.5,
         'med': 1,
-        'lrg': 2,
+        'large': 2,
         'huge': 4,
         'grg': 8,
     };
