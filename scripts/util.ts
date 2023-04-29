@@ -1,13 +1,14 @@
-import Item from '../types/item.js';
+import Item, { Sizes } from '../types/item.js';
 
-export async function getItemFromCompendium(packName, itemName) {
+export async function getItemFromCompendium(packName: string, itemName: string) {
+  // @ts-ignore
   const pack = game.packs.get(packName);
   console.log('😊 ORGAN GRINDER 😊', { pack, itemName });
   if (!pack) return null;
 
   const itemIndex = await pack.getIndex();
   console.log('😊 ORGAN GRINDER 😊', { itemIndex });
-  const itemEntry = itemIndex.find(e => e.name === itemName);
+  const itemEntry = itemIndex.find((e: { name: string }) => e.name === itemName);
   console.log('😊 ORGAN GRINDER 😊', { itemEntry });
   if (itemEntry) {
     const item = await pack.getDocument(itemEntry._id);
@@ -17,9 +18,9 @@ export async function getItemFromCompendium(packName, itemName) {
   return null;
 }
 
-export function randomizeAmountOfOrgans() {
-  return game.settings.get("pf2e-organ-grinder", "randomizeAmount");
-}
+// export function randomizeAmountOfOrgans() {
+//   return game.settings.get("pf2e-organ-grinder", "randomizeAmount");
+// }
 
 type TreasureStats = Item<'treasure'>['system'];
 type TreasureValue = TreasureStats['price']['value'];
@@ -80,4 +81,20 @@ export function generateTreasure({ img, name, desc, value, quantity, size, rarit
     },
     "type": "treasure"
   }
+}
+
+export const randomizeAmount = (creatureSize: Sizes, itemSize: Sizes, max?: number) => {
+  const sizes = {
+    'tiny': 0.25,
+    'sml': 0.5,
+    'med': 1,
+    'lrg': 2,
+    'huge': 4,
+    'grg': 8,
+  }
+  const sizeModifier = sizes[creatureSize] / sizes[itemSize];
+  const maxAmount = max ? max : 1;
+  const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
+  const amount = Math.floor(randomAmount * sizeModifier);
+  return amount;
 }

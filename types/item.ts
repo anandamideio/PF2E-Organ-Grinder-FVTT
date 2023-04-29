@@ -1,4 +1,5 @@
 type iTypes = "treasure"
+export type Sizes = "tiny"|"sml"|"med"|"lrg"|"huge"|"grg"
 
 export default interface Item<itemType extends iTypes = iTypes> {
   "img": string,
