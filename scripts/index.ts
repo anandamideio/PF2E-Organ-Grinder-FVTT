@@ -43,7 +43,7 @@ Hooks.once('init', () => {
 // It looks like for complex items (And potentially other things) we need to use the createActor hook and an async
 // call to read the compendium as per mxzf#5874's (Discord) advice, also again their advice in regards to the correct hook
 // @ts-ignore
-Hooks.on("createTokenDocument", async(token, data) => {
+Hooks.on("createToken", async(token, data) => {
   try {
     const actor = token.actor;
     console.log('[ORGAN GRINDER::createActor] ->', { token, data })
