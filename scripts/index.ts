@@ -1,7 +1,9 @@
 import { serpentfolkItems } from './data/serpentfolk.js';
 import { getItemFromCompendium, getRandomItemFromCompendiumWithPrefix } from './util.js';
 
+// @ts-ignore
 Hooks.once('init', () => {
+  // @ts-ignore
   game.settings.register("pf2e-organ-grinder", true, {
     name: "Randomize the amount",
     hint: "Randomize the amount of organs on each monster. (If you turn this off, all monsters will have only one addition.))",
@@ -12,6 +14,7 @@ Hooks.once('init', () => {
   })
 });
 
+// @ts-ignore
 Hooks.on("preCreateActor", (actor, data) => {
   if (actor.type === "npc") {
     if (actor.system.traits.value && Array.isArray(actor.system.traits.value) && actor.system.traits.value.length > 0) {
@@ -31,6 +34,7 @@ Hooks.on("preCreateActor", (actor, data) => {
 
 // It looks like for complex items (And potentially other things) we need to use the createActor hook and an async
 // call to read the compendium as per mxzf#5874's (Discord) advice
+// @ts-ignore
 Hooks.on("createActor", async(actor, data) => {
   try {
     if (actor.type === "npc") {
@@ -38,9 +42,10 @@ Hooks.on("createActor", async(actor, data) => {
         const traits = actor.system.traits.value;
         const creatureSize = actor.data.data.traits.size.value;
         const creatureLevel = actor.system.details.level.value;
-        console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { actor, data });
+        console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { actor, data, creatureLevel });
   
         const item = await getRandomItemFromCompendiumWithPrefix('beast-parts', 'Serpentfolk', creatureLevel);
+        // @ts-ignore
         if (!item) console.error('[😊 ORGAN GRINDER 😊::createActor] -> No item found here\'s what we have for that compendium', { items: game.packs.get(`pf2e-organ-grinder.beast-parts`) });
         console.log('[😊 ORGAN GRINDER 😊::createActor] ->', { item });
         actor.createEmbeddedDocuments('Item', [item])

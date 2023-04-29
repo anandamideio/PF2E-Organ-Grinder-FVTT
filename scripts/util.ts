@@ -1,4 +1,6 @@
-import Item, { Sizes } from '../types/item.js';
+import Item, { ItemSizes } from '../types/item.js';
+
+export type CreatureSizes = 'tiny' | 'small' | 'medium' | 'large' | 'huge' | 'grg';
 
 export async function getItemFromCompendium(packName: 'beast-parts'|string, itemName: string) {
   // @ts-ignore
@@ -27,7 +29,8 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
   const chooseItem = async(maxLevel: number): Promise<Item & { system: { details: { level: { value: number } } } }> => {
     try {
       const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id) as Item & { system: { details: { level: { value: number } } } };
-      if (item.system.details.level.value > maxLevel) return chooseItem(maxLevel);
+      console.log('😊 ORGAN GRINDER 😊', { item });
+      if (item.system.level.value > maxLevel) return chooseItem(maxLevel);
       return item;
     } catch (error) {
       console.error('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix] ->', { error })
@@ -47,7 +50,7 @@ type TreasureStats = Item<'treasure'>['system'];
 type TreasureValue = TreasureStats['price']['value'];
 type TreasureRarity = TreasureStats['traits']['rarity'];
 
-export function generateTreasure({ img, name, desc, value, quantity, size, rarity }: { img: string, name: string, desc: string, value: TreasureValue, quantity: number, size: Sizes, rarity: TreasureRarity }): Item<'treasure'> {
+export function generateTreasure({ img, name, desc, value, quantity, size, rarity }: { img: string, name: string, desc: string, value: TreasureValue, quantity: number, size: ItemSizes, rarity: TreasureRarity }): Item<'treasure'> {
   return {
     "img": img,
     "name": name,
@@ -103,12 +106,15 @@ export function generateTreasure({ img, name, desc, value, quantity, size, rarit
   }
 }
 
-export const randomizeAmount = (creatureSize: Sizes, itemSize: Sizes, max?: number) => {
+export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes, max?: number) => {
   const sizes = {
     'tiny': 0.25,
     'small': 0.5,
+    'sm': 0.5,
     'med': 1,
+    'medium': 1,
     'large': 2,
+    'lg': 2,
     'huge': 4,
     'grg': 8,
   }

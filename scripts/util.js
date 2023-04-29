@@ -22,7 +22,8 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
     const chooseItem = async (maxLevel) => {
         try {
             const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id);
-            if (item.system.details.level.value > maxLevel)
+            console.log('😊 ORGAN GRINDER 😊', { item });
+            if (item.system.level.value > maxLevel)
                 return chooseItem(maxLevel);
             return item;
         }
@@ -94,8 +95,11 @@ export const randomizeAmount = (creatureSize, itemSize, max) => {
     const sizes = {
         'tiny': 0.25,
         'small': 0.5,
+        'sm': 0.5,
         'med': 1,
+        'medium': 1,
         'large': 2,
+        'lg': 2,
         'huge': 4,
         'grg': 8,
     };
