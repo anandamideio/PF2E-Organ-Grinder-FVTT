@@ -22,9 +22,11 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
     const chooseItem = async (maxLevel) => {
         try {
             const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id);
-            console.log('😊 ORGAN GRINDER 😊', { item });
-            if (item.system.level.value > maxLevel)
+            console.log('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem]', { item });
+            if (item.system.level.value > maxLevel) {
+                console.log('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem] ->', { maxLevel, itemLevel: item.system.level.value });
                 return chooseItem(maxLevel);
+            }
             return item;
         }
         catch (error) {
