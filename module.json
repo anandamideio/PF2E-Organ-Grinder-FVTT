@@ -21,5 +21,19 @@
   "download": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/dist/PF2e-Organ-Grinder.zip",
   "readme": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/blob/master/README.md",
   "bugs": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/issues",
-  "allowBugReporter": true
+  "allowBugReporter": true,
+  "relationships": {
+    "systems": [{
+        "id": "pf2e",
+        "type": "system",
+        "manifest": "https://github.com/foundryvtt/pf2e/releases/download/latest/system.json",
+        "compatibility": {
+          "minimum": "4.10.0",
+          "verified": "4.10.0"
+        }
+      }]
+  },
+  "esmodules": [
+    "scripts/index.js"
+  ]
 }
