@@ -18,7 +18,7 @@
   },
   "url": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT",
   "manifest": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/module.json",
-  "download": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/dist/PF2e-Organ-Grinder.zip",
+  "download": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/archive/refs/tags/development.zip",
   "readme": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/blob/master/README.md",
   "bugs": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/issues",
   "allowBugReporter": true,
