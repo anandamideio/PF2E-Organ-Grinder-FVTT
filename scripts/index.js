@@ -14,6 +14,8 @@ Hooks.once('init', () => {
 async function getItemFromCompendium(packName, itemName) {
   const pack = game.packs.get(packName);
   console.log('😊 ORGAN GRINDER 😊', { pack, itemName });
+  if (!pack) return null;
+
   const itemIndex = await pack.getIndex();
   console.log('😊 ORGAN GRINDER 😊', { itemIndex });
   const itemEntry = itemIndex.find(e => e.name === itemName);
@@ -32,7 +34,7 @@ Hooks.on("preCreateActor", (actor, data, options, id) => {
       console.log('😊 ORGAN GRINDER 😊', { actor, data });
       const traits = actor.system.traits.value;
 
-      console.log('😊 ORGAN GRINDER 😊', getItemFromCompendium('beastParts', 'Serpentfolk Scales'));
+      console.log('😊 ORGAN GRINDER 😊', getItemFromCompendium('Beast Parts', 'Serpentfolk Scales'));
 
       if (traits.includes('serpentfolk')) {
         actor._source.items.push({
