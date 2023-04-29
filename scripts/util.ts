@@ -2,7 +2,7 @@ import Item, { Sizes } from '../types/item.js';
 
 export async function getItemFromCompendium(packName: string, itemName: string) {
   // @ts-ignore
-  const pack = game.packs.get(packName);
+  const pack = await packs.getDocument(packName);
   console.log('😊 ORGAN GRINDER 😊', { pack, itemName });
   if (!pack) return null;
 
