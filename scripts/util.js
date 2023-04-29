@@ -1,6 +1,6 @@
 export async function getItemFromCompendium(packName, itemName) {
-    const pack = game.packs.get(packName);
-    console.log('😊 ORGAN GRINDER 😊', { pack, packName, itemName });
+    const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
+    console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
     if (!pack)
         return null;
     const itemIndex = await pack.getIndex();

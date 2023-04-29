@@ -1,8 +1,8 @@
 import Item, { Sizes } from '../types/item.js';
 
-export async function getItemFromCompendium(packName: string, itemName: string) {
-  const pack = game.packs.get(packName);
-  console.log('😊 ORGAN GRINDER 😊', { pack, packName, itemName });
+export async function getItemFromCompendium(packName: 'beast-parts'|string, itemName: string) {
+  const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
+  console.log('[😊 ORGAN GRINDER 😊:: getItemFromCompendium] ->', { packName, itemName, pack });
   if (!pack) return null;
 
   const itemIndex = await pack.getIndex();
