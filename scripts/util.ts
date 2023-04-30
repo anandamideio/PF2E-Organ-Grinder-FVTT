@@ -53,13 +53,23 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
   return null;
 }
 
-export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes, max?: number) => {
+export function getSizeModifier(size: CreatureSizes | ItemSizes) {
   const sizes = {
     tiny: 0.25, small: 0.5, sm: 0.5, med: 1, medium: 1, large: 2, lg: 2, huge: 4, grg: 8,
   };
-  const sizeModifier = sizes[creatureSize] / sizes[itemSize];
+  return sizes[size];
+}
+
+export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes, max?: number) => {
+  const sizeModifier = getSizeModifier(creatureSize) / getSizeModifier(itemSize);
   const maxAmount = max || 1;
   const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
   const amount = Math.floor(randomAmount * sizeModifier);
   return amount;
 };
+
+export default function* range(start: number, end: number):Generator<number> {
+  for (let i: number = start; i <= end; i++) {
+    yield i;
+  }
+}

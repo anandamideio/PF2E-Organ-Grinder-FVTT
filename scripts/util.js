@@ -45,13 +45,21 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
         return chooseItem(maxItemLevel);
     return null;
 }
-export const randomizeAmount = (creatureSize, itemSize, max) => {
+export function getSizeModifier(size) {
     const sizes = {
         tiny: 0.25, small: 0.5, sm: 0.5, med: 1, medium: 1, large: 2, lg: 2, huge: 4, grg: 8,
     };
-    const sizeModifier = sizes[creatureSize] / sizes[itemSize];
+    return sizes[size];
+}
+export const randomizeAmount = (creatureSize, itemSize, max) => {
+    const sizeModifier = getSizeModifier(creatureSize) / getSizeModifier(itemSize);
     const maxAmount = max || 1;
     const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
     const amount = Math.floor(randomAmount * sizeModifier);
     return amount;
 };
+export default function* range(start, end) {
+    for (let i = start; i <= end; i++) {
+        yield i;
+    }
+}

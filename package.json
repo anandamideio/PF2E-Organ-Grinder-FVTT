@@ -1,6 +1,6 @@
 {
   "name": "pf2e-organ-grinder-fvtt",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "Automatically add monster parts to monsters in the PF2e Bestiary",
   "main": "module.json",
   "scripts": {
