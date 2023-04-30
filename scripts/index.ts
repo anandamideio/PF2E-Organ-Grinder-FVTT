@@ -1,6 +1,9 @@
 import { getRandomItemFromCompendiumWithPrefix } from './util.js';
 
 // @ts-ignore
+const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
+
+// @ts-ignore
 Hooks.once('init', () => {
   // @ts-ignore
   game.settings.register("pf2e-organ-grinder", 'randomizeAmount', {
@@ -9,7 +12,8 @@ Hooks.once('init', () => {
     scope: "world",
     config: true,
     type: Boolean,
-    default: true
+    default: true,
+    onChange: debouncedReload,
   });
 
   // @ts-ignore
@@ -19,7 +23,8 @@ Hooks.once('init', () => {
     scope: "world",
     config: true,
     type: Number,
-    default: 2
+    default: 2,
+    onChange: debouncedReload,
   });
 
   // @ts-ignore
@@ -29,7 +34,8 @@ Hooks.once('init', () => {
     scope: "world",
     config: true,
     type: Boolean,
-    default: false
+    default: false,
+    onChange: debouncedReload,
   });
 });
 
