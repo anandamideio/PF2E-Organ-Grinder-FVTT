@@ -1,4 +1,59 @@
-import { generateTreasure, randomizeAmount } from '../util.js';
+import { randomizeAmount } from '../util.js';
+export function generateTreasure({ img, name, desc, value, quantity, size, rarity }) {
+    return {
+        "img": img,
+        "name": name,
+        "system": {
+            "baseItem": null,
+            "containerId": null,
+            "description": {
+                "value": desc
+            },
+            "equippedBulk": {
+                "value": ""
+            },
+            "hardness": 0,
+            "hp": {
+                "brokenThreshold": 0,
+                "max": 0,
+                "value": 0
+            },
+            "level": {
+                "value": 0
+            },
+            "negateBulk": {
+                "value": "0"
+            },
+            "preciousMaterial": {
+                "value": ""
+            },
+            "preciousMaterialGrade": {
+                "value": ""
+            },
+            "price": {
+                "value": value,
+            },
+            "quantity": quantity,
+            "rules": [],
+            "size": size,
+            "source": {
+                "value": "PF2E Organ Grinder"
+            },
+            "stackGroup": null,
+            "traits": {
+                "rarity": rarity,
+                "value": []
+            },
+            "usage": {
+                "value": ""
+            },
+            "weight": {
+                "value": "-"
+            }
+        },
+        "type": "treasure"
+    };
+}
 export const serpentfolkItems = (creatureSize, shouldRandomize = true) => [
     generateTreasure({
         img: 'systems/pf2e/icons/equipment/consumables/other-consumables/bubbling-scale.webp',

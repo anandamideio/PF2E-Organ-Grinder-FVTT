@@ -1,5 +1,71 @@
-import Item from '../../types/item.js';
-import { CreatureSizes, generateTreasure, randomizeAmount } from '../util.js';
+import Item, { ItemSizes } from '../../types/item.js';
+import { CreatureSizes, randomizeAmount } from '../util.js';
+
+
+// export function randomizeAmountOfOrgans() {
+//   return game.settings.get("pf2e-organ-grinder", "randomizeAmount");
+// }
+
+type TreasureStats = Item<'treasure'>['system'];
+type TreasureValue = TreasureStats['price']['value'];
+type TreasureRarity = TreasureStats['traits']['rarity'];
+
+export function generateTreasure({ img, name, desc, value, quantity, size, rarity }: { img: string, name: string, desc: string, value: TreasureValue, quantity: number, size: ItemSizes, rarity: TreasureRarity }): Item<'treasure'> {
+  return {
+    "img": img,
+    "name": name,
+    "system": {
+      "baseItem": null,
+      "containerId": null,
+      "description": {
+        "value": desc
+      },
+      "equippedBulk": {
+        "value": ""
+      },
+      "hardness": 0,
+      "hp": {
+        "brokenThreshold": 0,
+        "max": 0,
+        "value": 0
+      },
+      "level": {
+        "value": 0
+      },
+      "negateBulk": {
+        "value": "0"
+      },
+      "preciousMaterial": {
+        "value": ""
+      },
+      "preciousMaterialGrade": {
+        "value": ""
+      },
+      "price": {
+        "value": value,
+      },
+      "quantity": quantity,
+      "rules": [],
+      "size": size,
+      "source": {
+        "value": "PF2E Organ Grinder"
+      },
+      "stackGroup": null,
+      "traits": {
+        "rarity": rarity,
+        "value": []
+      },
+      "usage": {
+        "value": ""
+      },
+      "weight": {
+        "value": "-"
+      }
+    },
+    "type": "treasure"
+  }
+}
+
 
 export const serpentfolkItems = (creatureSize: CreatureSizes, shouldRandomize = true) => ([
   generateTreasure({
