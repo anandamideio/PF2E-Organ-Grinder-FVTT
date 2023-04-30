@@ -1,10 +1,6 @@
 import { getRandomItemFromCompendiumWithPrefix, getSizeModifier } from './util.js';
 // @ts-ignore
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
-// @ts-ignore
-const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode'); // @ts-ignore
-const maxItemLevel = game.settings.get('pf2e-organ-grinder', 'maxItemLevel'); // @ts-ignore
-const randomizeAmount = game.settings.get('pf2e-organ-grinder', 'randomizeAmount');
 const MODULE_NAME = 'pf2e-organ-grinder';
 // @ts-ignore
 Hooks.once('init', () => {
@@ -43,6 +39,9 @@ Hooks.once('init', () => {
 // Per mxzf#5874's (Discord) advice (Thank you!!), we are using the createToken hook to add items to the actor
 // @ts-ignore
 Hooks.on('createToken', async (token, data) => {
+    const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode'); // @ts-ignore
+    const maxItemLevel = game.settings.get('pf2e-organ-grinder', 'maxItemLevel'); // @ts-ignore
+    const randomizeAmount = game.settings.get('pf2e-organ-grinder', 'randomizeAmount');
     if (DEBUG)
         console.debug('[ORGAN GRINDER::createActor] ->', { token, data });
     try {
