@@ -14,7 +14,7 @@ export async function getItemFromCompendium(packName, itemName) {
 }
 export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, maxItemLevel = 10) {
     // @ts-ignore
-    const DEBUG = game.settings.get("pf2e-organ-grinder", "debugMode");
+    const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode');
     // @ts-ignore
     const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
     if (!pack)
@@ -27,9 +27,12 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
             if (DEBUG)
                 console.debug('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem]', { item });
             if (item.system.level.value > maxLevel) {
-                if (DEBUG)
-                    console.debug('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem] ->', { maxLevel, itemLevel: item.system.level.value });
-                return chooseItem(maxLevel);
+                if (DEBUG) {
+                    console.debug('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem] ->', {
+                        maxLevel, itemLevel: item.system.level.value,
+                    });
+                }
+                return await chooseItem(maxLevel);
             }
             return item;
         }
@@ -43,9 +46,11 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
     return null;
 }
 export const randomizeAmount = (creatureSize, itemSize, max) => {
-    const sizes = { 'tiny': 0.25, 'small': 0.5, 'sm': 0.5, 'med': 1, 'medium': 1, 'large': 2, 'lg': 2, 'huge': 4, 'grg': 8 };
+    const sizes = {
+        tiny: 0.25, small: 0.5, sm: 0.5, med: 1, medium: 1, large: 2, lg: 2, huge: 4, grg: 8,
+    };
     const sizeModifier = sizes[creatureSize] / sizes[itemSize];
-    const maxAmount = max ? max : 1;
+    const maxAmount = max || 1;
     const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
     const amount = Math.floor(randomAmount * sizeModifier);
     return amount;
