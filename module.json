@@ -2,7 +2,7 @@
   "id": "pf2e-organ-grinder",
   "title": "PF2e Organ Grinder",
   "description": "A module for PF2E that adds monster parts to most monsters in te PF2e Bestiary",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "authors": [
     {
       "name": "ModernCannabist",
@@ -35,8 +35,16 @@
   },
   "packs": [{
     "name": "beast-parts",
-    "label": "Beast Parts",
+    "label": "Organ Grinder - Beast Parts",
     "path": "./packs/beastParts.db",
+    "type": "Item",
+    "entity": "Item",
+    "system": "pf2e"
+  },
+  {
+    "name": "beast-part-effects",
+    "label": "Organ Grinder - Effects",
+    "path": "./packs/organ-grinder-effects.db",
     "type": "Item",
     "entity": "Item",
     "system": "pf2e"

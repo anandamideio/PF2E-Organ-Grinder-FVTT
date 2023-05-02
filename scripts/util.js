@@ -1,17 +1,3 @@
-export async function getItemFromCompendium(packName, itemName) {
-    // @ts-ignore
-    const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
-    if (!pack)
-        return null;
-    const itemIndex = await pack.getIndex();
-    const itemEntry = itemIndex.find((e) => e.name === itemName);
-    if (itemEntry) {
-        const item = await pack.getDocument(itemEntry._id);
-        console.log('😊 ORGAN GRINDER 😊', { item });
-        return item;
-    }
-    return null;
-}
 export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, maxItemLevel = 10) {
     // @ts-ignore
     const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode'); // @ts-ignore
@@ -20,7 +6,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
         return null;
     const itemIndex = await pack.getIndex();
     const itemEntries = itemIndex.filter((e) => e.name.startsWith(prefix));
-    if (itemEntries.length === 0)
+    if (itemEntries?.length === 0)
         return null;
     const chooseItem = async (maxLevel) => {
         try {
@@ -44,9 +30,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
             throw error;
         }
     };
-    if (itemEntries)
-        return chooseItem(maxItemLevel);
-    return null;
+    return chooseItem(maxItemLevel);
 }
 export function getSizeModifier(size) {
     const sizes = {
@@ -54,10 +38,9 @@ export function getSizeModifier(size) {
     };
     return sizes[size];
 }
-export const randomizeAmount = (creatureSize, itemSize, max) => {
+export const randomizeAmount = (creatureSize, itemSize, max = 1) => {
     const sizeModifier = getSizeModifier(creatureSize) / getSizeModifier(itemSize);
-    const maxAmount = max || 1;
-    const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
+    const randomAmount = Math.floor(Math.random() * max) + 1;
     const amount = Math.floor(randomAmount * sizeModifier);
     return amount;
 };

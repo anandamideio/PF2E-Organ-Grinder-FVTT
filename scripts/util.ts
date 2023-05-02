@@ -1,22 +1,7 @@
-import Item, { ItemSizes } from '../types/item.js';
+import Item from '../types/item.js';
 
 export type CreatureSizes = 'tiny' | 'sm' | 'medium' | 'lg' | 'huge' | 'grg';
-
-export async function getItemFromCompendium(packName: 'beast-parts' | string, itemName: string) {
-  // @ts-ignore
-  const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
-  if (!pack) return null;
-
-  const itemIndex = await pack.getIndex();
-  const itemEntry = itemIndex.find((e: { name: string }) => e.name === itemName);
-
-  if (itemEntry) {
-    const item = await pack.getDocument(itemEntry._id);
-    console.log('😊 ORGAN GRINDER 😊', { item });
-    return item;
-  }
-  return null;
-}
+export type ItemSizes = 'tiny' | 'sm' | 'med' | 'lg' | 'huge' | 'grg';
 
 export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-parts' | string, prefix: string, maxItemLevel = 10) {
   // @ts-ignore
@@ -27,7 +12,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
   const itemIndex = await pack.getIndex();
   const itemEntries = itemIndex.filter((e: { name: string }) => e.name.startsWith(prefix));
 
-  if (itemEntries.length === 0) return null;
+  if (itemEntries?.length === 0) return null;
 
   type ItemWithLevel = Item & { system: { details: { level: { value: number } } } };
 
@@ -51,8 +36,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
     }
   };
 
-  if (itemEntries) return chooseItem(maxItemLevel);
-  return null;
+  return chooseItem(maxItemLevel);
 }
 
 export function getSizeModifier(size: CreatureSizes | ItemSizes) {
@@ -62,10 +46,9 @@ export function getSizeModifier(size: CreatureSizes | ItemSizes) {
   return sizes[size];
 }
 
-export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes, max?: number) => {
+export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes, max: number = 1) => {
   const sizeModifier = getSizeModifier(creatureSize) / getSizeModifier(itemSize);
-  const maxAmount = max || 1;
-  const randomAmount = Math.floor(Math.random() * maxAmount) + 1;
+  const randomAmount = Math.floor(Math.random() * max) + 1;
   const amount = Math.floor(randomAmount * sizeModifier);
   return amount;
 };

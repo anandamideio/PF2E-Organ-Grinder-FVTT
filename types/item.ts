@@ -1,5 +1,6 @@
+import { ItemSizes } from '../scripts/util.js';
+
 type ITypes = 'treasure' | 'weapon' | 'consumables';
-export type ItemSizes = 'tiny' | 'sm' | 'med' | 'lg' | 'huge' | 'grg';
 
 export default interface Item<ItemType extends ITypes = ITypes> {
   'img': string,
