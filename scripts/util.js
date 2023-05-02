@@ -14,13 +14,14 @@ export async function getItemFromCompendium(packName, itemName) {
 }
 export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, maxItemLevel = 10) {
     // @ts-ignore
-    const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode');
-    // @ts-ignore
+    const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode'); // @ts-ignore
     const pack = game.packs.get(`pf2e-organ-grinder.${packName}`);
     if (!pack)
         return null;
     const itemIndex = await pack.getIndex();
     const itemEntries = itemIndex.filter((e) => e.name.startsWith(prefix));
+    if (itemEntries.length === 0)
+        return null;
     const chooseItem = async (maxLevel) => {
         try {
             const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id);
