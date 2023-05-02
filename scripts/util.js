@@ -49,7 +49,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
 }
 export function getSizeModifier(size) {
     const sizes = {
-        tiny: 0.25, small: 0.5, sm: 0.5, med: 1, medium: 1, large: 2, lg: 2, huge: 4, grg: 8,
+        tiny: 0.25, sm: 0.5, med: 1, medium: 1, lg: 2, huge: 4, grg: 8,
     };
     return sizes[size];
 }
@@ -61,6 +61,7 @@ export const randomizeAmount = (creatureSize, itemSize, max) => {
     return amount;
 };
 export function* range(start, end) {
+    // eslint-disable-next-line no-plusplus
     for (let i = start; i <= end; i++) {
         yield i;
     }

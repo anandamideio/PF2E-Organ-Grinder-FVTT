@@ -5,7 +5,6 @@ const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 1
 const MODULE_NAME = 'pf2e-organ-grinder';
 // @ts-ignore
 Hooks.once('init', () => {
-    // @ts-ignore
     game.settings.register(MODULE_NAME, 'randomizeAmount', {
         name: 'Randomize the amount',
         hint: 'Randomize the amount of organs on each monster. (If you turn this off, all monsters will have only one addition.))',
@@ -19,7 +18,8 @@ Hooks.once('init', () => {
     game.settings.register(MODULE_NAME, 'maxItemLevel', {
         name: 'Max Item Level',
         hint: `How many levels above the creature's level should we generate from?
-    (If you set this to 0, the MAX item level will always be the same level as the creature itself.)`,
+    (If you set this to 0, the MAX item level will always be the same level as the creature itself,
+      with the exception of level -1 creatures, which will generate level 0 items.)`,
         scope: 'world',
         config: true,
         type: Number,
@@ -54,12 +54,23 @@ Hooks.on('createToken', async (token, data) => {
             return;
         const creatureName = actor.name;
         const creatureSize = actor.data.data.traits.size.value;
-        const creatureLevel = actor.system.details.level.value;
-        const totalItems = randomizeAmount
+        let creatureLevel = Number(actor.system.details.level.value);
+        if (creatureLevel === -1)
+            creatureLevel = 1;
+        const totalItems = (randomizeAmount && creatureLevel > 1)
             ? Math.floor((getSizeModifier(creatureSize) * creatureLevel) * 0.4)
             : 1;
         const additionalTraits = monsters.find((monster) => monster.name === creatureName)?.additionalTraits;
-        const creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
+        let creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
+        // Remove traits that don't help us generate items
+        if (creatureTraits.includes('evil'))
+            creatureTraits = creatureTraits.filter((trait) => trait !== 'evil');
+        if (creatureTraits.includes('good'))
+            creatureTraits = creatureTraits.filter((trait) => trait !== 'good');
+        if (creatureTraits.includes('lawful'))
+            creatureTraits = creatureTraits.filter((trait) => trait !== 'lawful');
+        if (creatureTraits.includes('chaotic'))
+            creatureTraits = creatureTraits.filter((trait) => trait !== 'chaotic');
         if (DEBUG) {
             console.debug('[ORGAN GRINDER::createToken] ->', {
                 creatureName,

@@ -1,6 +1,6 @@
 import Item, { ItemSizes } from '../types/item.js';
 
-export type CreatureSizes = 'tiny' | 'small' | 'medium' | 'large' | 'huge' | 'grg';
+export type CreatureSizes = 'tiny' | 'sm' | 'medium' | 'lg' | 'huge' | 'grg';
 
 export async function getItemFromCompendium(packName: 'beast-parts' | string, itemName: string) {
   // @ts-ignore
@@ -56,7 +56,7 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
 
 export function getSizeModifier(size: CreatureSizes | ItemSizes) {
   const sizes = {
-    tiny: 0.25, small: 0.5, sm: 0.5, med: 1, medium: 1, large: 2, lg: 2, huge: 4, grg: 8,
+    tiny: 0.25, sm: 0.5, med: 1, medium: 1, lg: 2, huge: 4, grg: 8,
   };
   return sizes[size];
 }
@@ -70,6 +70,7 @@ export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes
 };
 
 export function* range(start: number, end: number):Generator<number> {
+  // eslint-disable-next-line no-plusplus
   for (let i: number = start; i <= end; i++) {
     yield i;
   }

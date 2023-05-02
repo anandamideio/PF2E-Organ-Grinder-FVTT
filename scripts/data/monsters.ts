@@ -1,3 +1,5 @@
+export type PF2eTraits = 'humanoid' | 'mutant' | 'serpentfolk' | 'evil' | 'chaotic' | 'fey' | 'gremlin' | 'animal';
+
 export const monsters = [
   { name: 'Slurk', additionalTraits: ['reptile', 'frog', 'tusked'] },
   { name: 'Giant Fly', additionalTraits: ['insect', 'fly', 'winged'] },
