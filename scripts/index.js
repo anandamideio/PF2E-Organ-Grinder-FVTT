@@ -1,4 +1,5 @@
-import { getRandomItemFromCompendiumWithPrefix, getSizeModifier } from './util.js';
+import { range, getRandomItemFromCompendiumWithPrefix, getSizeModifier, capitalize, } from './util.js';
+import { monsters } from './data/monsters.js';
 // @ts-ignore
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
 const MODULE_NAME = 'pf2e-organ-grinder';
@@ -51,14 +52,17 @@ Hooks.on('createToken', async (token, data) => {
         const traits = actor.system.traits.value;
         if (!traits || Array.isArray(traits) === false || traits.length === 0)
             return;
+        const creatureName = actor.name;
         const creatureSize = actor.data.data.traits.size.value;
         const creatureLevel = actor.system.details.level.value;
         const totalItems = randomizeAmount
             ? Math.floor((getSizeModifier(creatureSize) * creatureLevel) * 0.4)
             : 1;
+        const additionalTraits = monsters.find((monster) => monster.name === creatureName)?.additionalTraits;
+        const creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
         // Lets add total items to the actor
-        await Promise.all([...Array(totalItems)].map(async () => {
-            const item = await getRandomItemFromCompendiumWithPrefix('beast-parts', 'Serpentfolk', creatureLevel + maxItemLevel);
+        await Promise.all([...range(0, totalItems)].map(async () => {
+            const item = await getRandomItemFromCompendiumWithPrefix('beast-parts', capitalize(creatureTraits[Math.floor(Math.random() * creatureTraits.length)]), creatureLevel + maxItemLevel);
             if (!item) {
                 if (DEBUG) {
                     console.error('[ORGAN GRINDER::createActor] -> No item found here\'s what we have for that compendium', {

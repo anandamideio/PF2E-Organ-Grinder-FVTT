@@ -68,8 +68,10 @@ export const randomizeAmount = (creatureSize: CreatureSizes, itemSize: ItemSizes
   return amount;
 };
 
-export default function* range(start: number, end: number):Generator<number> {
+export function* range(start: number, end: number):Generator<number> {
   for (let i: number = start; i <= end; i++) {
     yield i;
   }
 }
+
+export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);

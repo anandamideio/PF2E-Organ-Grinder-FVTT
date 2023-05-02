@@ -58,8 +58,9 @@ export const randomizeAmount = (creatureSize, itemSize, max) => {
     const amount = Math.floor(randomAmount * sizeModifier);
     return amount;
 };
-export default function* range(start, end) {
+export function* range(start, end) {
     for (let i = start; i <= end; i++) {
         yield i;
     }
 }
+export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);

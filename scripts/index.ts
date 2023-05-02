@@ -1,10 +1,12 @@
-import { getRandomItemFromCompendiumWithPrefix, getSizeModifier } from './util.js';
+import {
+  range, getRandomItemFromCompendiumWithPrefix, getSizeModifier, capitalize,
+} from './util.js';
+import { monsters } from './data/monsters.js';
 
-type Traits = 'humanoid' | 'mutant' | 'serpentfolk' | 'evil' | 'chaotic';
+type Traits = 'humanoid' | 'mutant' | 'serpentfolk' | 'evil' | 'chaotic' | 'fey' | 'gremlin' | 'animal';
 
 // @ts-ignore
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
-
 const MODULE_NAME = 'pf2e-organ-grinder';
 
 // @ts-ignore
@@ -50,6 +52,7 @@ Hooks.on('createToken', async (token, data) => { // @ts-ignore
   const DEBUG = game.settings.get('pf2e-organ-grinder', 'debugMode') as boolean; // @ts-ignore
   const maxItemLevel = game.settings.get('pf2e-organ-grinder', 'maxItemLevel') as number; // @ts-ignore
   const randomizeAmount = game.settings.get('pf2e-organ-grinder', 'randomizeAmount') as boolean;
+
   if (DEBUG) console.debug('[ORGAN GRINDER::createActor] ->', { token, data });
 
   try {
@@ -59,17 +62,21 @@ Hooks.on('createToken', async (token, data) => { // @ts-ignore
     const traits = actor.system.traits.value as Array<Traits>;
     if (!traits || Array.isArray(traits) === false || traits.length === 0) return;
 
+    const creatureName = actor.name;
     const creatureSize = actor.data.data.traits.size.value;
     const creatureLevel = actor.system.details.level.value as number;
     const totalItems = randomizeAmount
       ? Math.floor((getSizeModifier(creatureSize) * creatureLevel) * 0.4)
       : 1;
 
+    const additionalTraits = monsters.find((monster) => monster.name === creatureName)?.additionalTraits;
+    const creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
+
     // Lets add total items to the actor
-    await Promise.all([...Array(totalItems)].map(async () => {
+    await Promise.all([...range(0, totalItems)].map(async () => {
       const item = await getRandomItemFromCompendiumWithPrefix(
         'beast-parts',
-        'Serpentfolk',
+        capitalize(creatureTraits[Math.floor(Math.random() * creatureTraits.length)]),
         creatureLevel + maxItemLevel,
       );
 
