@@ -30,9 +30,10 @@ export async function getRandomItemFromCompendiumWithPrefix(packName: 'beast-par
 
   type ItemWithLevel = Item & { system: { details: { level: { value: number } } } };
 
-  const chooseItem = async (maxLevel: number): Promise<ItemWithLevel> => {
+  const chooseItem = async (maxLevel: number): Promise<ItemWithLevel | null> => {
     try {
       const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id) as ItemWithLevel;
+      if (!item) return null;
       if (DEBUG) console.debug('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem]', { item });
       if (item.system.level.value > maxLevel) {
         if (DEBUG) {

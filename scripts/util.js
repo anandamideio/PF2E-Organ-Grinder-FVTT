@@ -24,6 +24,8 @@ export async function getRandomItemFromCompendiumWithPrefix(packName, prefix, ma
     const chooseItem = async (maxLevel) => {
         try {
             const item = await pack.getDocument(itemEntries[Math.floor(Math.random() * itemEntries.length)]._id);
+            if (!item)
+                return null;
             if (DEBUG)
                 console.debug('[😊 ORGAN GRINDER 😊::getRandomItemFromCompendiumWithPrefix:::chooseItem]', { item });
             if (item.system.level.value > maxLevel) {

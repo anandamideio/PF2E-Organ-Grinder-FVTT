@@ -53,7 +53,7 @@ Hooks.on('createToken', async (token, data) => { // @ts-ignore
   const maxItemLevel = game.settings.get('pf2e-organ-grinder', 'maxItemLevel') as number; // @ts-ignore
   const randomizeAmount = game.settings.get('pf2e-organ-grinder', 'randomizeAmount') as boolean;
 
-  if (DEBUG) console.debug('[ORGAN GRINDER::createActor] ->', { token, data });
+  if (DEBUG) console.debug('[ORGAN GRINDER::createTokenHook] ->', { token, data });
 
   try {
     const { actor } = token;
@@ -72,22 +72,37 @@ Hooks.on('createToken', async (token, data) => { // @ts-ignore
     const additionalTraits = monsters.find((monster) => monster.name === creatureName)?.additionalTraits;
     const creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
 
+    if (DEBUG) {
+      console.debug('[ORGAN GRINDER::createToken] ->', {
+        creatureName,
+        creatureSize,
+        creatureLevel,
+        creatureTraits,
+        totalItems,
+      });
+    }
+
     // Lets add total items to the actor
     await Promise.all([...range(0, totalItems)].map(async () => {
+      const trait = capitalize(creatureTraits[Math.floor(Math.random() * creatureTraits.length)]);
       const item = await getRandomItemFromCompendiumWithPrefix(
         'beast-parts',
-        capitalize(creatureTraits[Math.floor(Math.random() * creatureTraits.length)]),
+        trait,
         creatureLevel + maxItemLevel,
       );
 
       if (!item) {
         if (DEBUG) {
-          console.error('[ORGAN GRINDER::createActor] -> No item found here\'s what we have for that compendium', { // @ts-ignore
+          console.error('[ORGAN GRINDER::addingItem] -> No item found with that prefix here\'s what we have for that compendium', {
+            // @ts-ignore
             items: game.packs.get('pf2e-organ-grinder.beast-parts'),
+            prefix: trait,
           });
         }
+        return;
       }
 
+      if (DEBUG) console.debug('[ORGAN GRINDER::addedItem] ->', { item });
       actor.createEmbeddedDocuments('Item', [item]);
     }));
   } catch (error) {
