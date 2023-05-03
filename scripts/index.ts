@@ -69,7 +69,9 @@ Hooks.on('createToken', async (token, data) => { // @ts-ignore
       : 1;
 
     const additionalTraits = monsters.find((monster) => monster.name === creatureName)?.additionalTraits;
-    let creatureTraits = (Array.isArray(additionalTraits)) ? [...traits, ...additionalTraits] : traits;
+    let creatureTraits = (Array.isArray(additionalTraits))
+      ? [...traits, ...additionalTraits, creatureName.toLowerCase()]
+      : [...traits, creatureName.toLowerCase()];
 
     // Remove traits that don't help us generate items
     if (creatureTraits.includes('evil')) creatureTraits = creatureTraits.filter((trait) => trait !== 'evil');

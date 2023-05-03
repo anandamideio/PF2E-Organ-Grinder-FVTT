@@ -1,9 +1,9 @@
 export type PF2eTraits = 'humanoid' | 'mutant' | 'serpentfolk' | 'evil' | 'chaotic' | 'fey' | 'gremlin' | 'animal';
 
 export const monsters = [
-  { name: 'Slurk', additionalTraits: ['slurk', 'frog'] },
+  { name: 'Cinder Rat', additionalTraits: ['rat'] },
+  { name: 'Slurk', additionalTraits: ['frog'] },
   { name: 'Giant Fly', additionalTraits: ['insect', 'fly'] },
-  { name: 'Mitflit', additionalTraits: ['mitflit'] },
-  { name: 'Flickerwisp', additionalTraits: ['flickerwisp', 'wisp'] },
+  { name: 'Flickerwisp', additionalTraits: ['wisp'] },
 ];
 export default monsters;
