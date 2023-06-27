@@ -5,5 +5,6 @@ export const monsters = [
   { name: 'Slurk', additionalTraits: ['frog'] },
   { name: 'Giant Fly', additionalTraits: ['insect', 'fly'] },
   { name: 'Flickerwisp', additionalTraits: ['wisp'] },
+  { name: 'Web Lurker', additionalTraits: ['insect', 'spider'] },
 ];
 export default monsters;
