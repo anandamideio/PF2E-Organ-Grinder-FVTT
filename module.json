@@ -2,7 +2,7 @@
   "id": "pf2e-organ-grinder",
   "title": "PF2e Organ Grinder",
   "description": "A module for PF2E that adds monster parts to most monsters in te PF2e Bestiary",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "authors": [
     {
       "name": "ModernCannabist",
@@ -13,9 +13,10 @@
   "minimumCoreVersion": "10",
   "compatibility": {
     "minimum": 10,
-    "maximum": 10,
-    "verified": "10.291"
+    "maximum": 11,
+    "verified": "11"
   },
+  "manifestPlusVersion": "1.2.0",
   "url": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT",
   "manifest": "https://raw.githubusercontent.com/anandamideio/PF2E-Organ-Grinder-FVTT/main/module.json",
   "download": "https://github.com/anandamideio/PF2E-Organ-Grinder-FVTT/archive/refs/tags/dev.zip",
@@ -29,17 +30,28 @@
         "manifest": "https://github.com/foundryvtt/pf2e/releases/download/latest/system.json",
         "compatibility": {
           "minimum": "4.10.0",
-          "verified": "4.10.0"
+          "verified": "5.1.2"
         }
       }]
   },
+  "packFolders": [
+    {
+        "name": "Organ Grinder",
+        "sorting": "a",
+        "color": "#6f1c17",
+        "packs": [
+          "Item"
+        ]
+    }
+  ],
   "packs": [{
     "name": "beast-parts",
     "label": "Organ Grinder - Beast Parts",
     "path": "./packs/beastParts.db",
     "type": "Item",
     "entity": "Item",
-    "system": "pf2e"
+    "system": "pf2e",
+    "private": true
   },
   {
     "name": "beast-part-effects",
@@ -47,7 +59,8 @@
     "path": "./packs/organ-grinder-effects.db",
     "type": "Item",
     "entity": "Item",
-    "system": "pf2e"
+    "system": "pf2e",
+    "private": true
   }],
   "esmodules": [
     "scripts/index.js"
